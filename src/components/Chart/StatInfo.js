@@ -1,15 +1,17 @@
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import buildPercentileLine from "../../chartScripts/buildPercentileLine";
 import classes from "./StatInfo.module.css";
 import * as d3 from "d3";
 import changePercentileLine from "../../chartScripts/changePercentileLine";
+import { playerActions } from "../../store/playerSlice.js";
 
 const StatInfo = (props) => {
   const player = useSelector((state) => state.player.currentPlayer);
   const [isLoading, setIsLoading] = useState(true);
   const [stat, setStat] = useState(0);
+  const dispatch = useDispatch()
   function changeInfoData(ev) {
     const s = ev.target.options;
     console.log(s[s.selectedIndex].innerText);
@@ -19,6 +21,7 @@ const StatInfo = (props) => {
       props.id,
       player.stats.all[s.selectedIndex].percentile
     );
+    dispatch(playerActions.setPlayerChartData({id: props.id, data: player.stats.all[s.selectedIndex].percentile, type:'percentile'}))
     //changePieChart(props.id, player, newStat);
   }
   const info = () => {
@@ -45,9 +48,10 @@ const StatInfo = (props) => {
     if (player !== null) {
       setStat(player.stats.all[0]);
       buildPercentileLine(props.id, player.stats.all[0].percentile);
+      dispatch(playerActions.setPlayerChartData({id: props.id, data: player.stats.all[0].percentile, type:'percentile'}))
       setIsLoading(false);
     }
-  }, [props.id, player]);
+  }, [props.id, player, dispatch]);
 
   return (
     <div className={classes.container}>

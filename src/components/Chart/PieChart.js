@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import buildPieChart from "../../chartScripts/buildPieChart.js";
 import changePieChart from "../../chartScripts/changePie.js";
 import buildLineChart from "../../chartScripts/buildLineChart";
+import { playerActions } from "../../store/playerSlice.js";
 
 const data = [
   { label: "Hero 1", value: 23 },
@@ -38,6 +39,7 @@ const PieChart = (props) => {
     console.log(s[s.selectedIndex].innerText);
     const newStat = s[s.selectedIndex].innerText;
     changePieChart(props.id, player, newStat);
+    dispatch(playerActions.setPlayerChartData({id:props.id, data: player, selection: newStat, type: 'pie'}))
   }
   useEffect(() => {
     console.log(player);
@@ -45,19 +47,8 @@ const PieChart = (props) => {
       console.log(player);
       setIsLoading(false);
       buildPieChart(props.id, player, player.stats.all[0].name);
+      dispatch(playerActions.setPlayerChartData({id:props.id, data: player, selection: player.stats.all[0].name, type: 'pie'}))
     }
-
-    // dispatch(
-    //   chartActions.addChartVars({
-    //     data,
-    //     id: props.id,
-    //     margin,
-    //     type: "pie",
-    //     mainArc,
-    //     labelArc,
-    //   })
-    // );
-    //console.log(arcs)
   }, [dispatch, props.id, player]);
 
   return (

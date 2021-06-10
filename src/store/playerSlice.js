@@ -11,7 +11,14 @@ const playerSlice = createSlice({
             state.players = action.payload
         },
         setPlayerChartData(state, action){
-            state.playerChartData = action.payload
+            const newChart = action.payload
+            const foundChartIndex = state.playerChartData.findIndex(c => c.type === newChart.type)
+            if(foundChartIndex === -1){
+                state.playerChartData.push(newChart)
+            }
+            else{
+                state.playerChartData[foundChartIndex] = newChart
+            }
         }
     }
 })

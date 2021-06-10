@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-const buildPercentileLine = (id, percentile) => {
+const buildPercentileLine = (id, percentile, transition=true) => {
 
     const data = [1,3,4,5,10]
     const getPercentile = (arr, p) => {

@@ -12,7 +12,7 @@ function App() {
   const dispatch = useDispatch()
   const charts = useSelector(state => state.player.playerChartData)
   useEffect(() => {
-    window.onresize = resizeCharts(charts)
+    window.onresize = () => {resizeCharts(charts)}
   }, [charts])
   useEffect(() => {
     

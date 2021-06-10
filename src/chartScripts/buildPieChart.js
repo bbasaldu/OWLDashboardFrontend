@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-const buildPieChart = (id, rawData, selection) => {
+const buildPieChart = (id, rawData, selection, transition=true) => {
     const color = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
     '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
     '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
@@ -41,9 +41,10 @@ const buildPieChart = (id, rawData, selection) => {
     const w = parseInt(d3.select(`#${id}Svg`).style("width"));
 
     const h = parseInt(d3.select(`#${id}Svg`).style("height"));
+    //I should define global media query
     const mediaQuery = window.matchMedia('(max-width: 700px)');
-    let margin = 50;
-    if(mediaQuery.matches) margin = 10
+    let margin = 25;
+    if(mediaQuery.matches) margin = 50
 
     //max radius that can fit in container
     //which is why values used in arc functions are fractions of it
@@ -57,7 +58,7 @@ const buildPieChart = (id, rawData, selection) => {
     const arcs = pie(data);
     const transitionTime = 1000;
 
-    const mainArc = { inner: r * 0.5, outer: r * 0.8 };
+    const mainArc = { inner: r * 0.6, outer: r * 0.95 };
     const arc = d3.arc().innerRadius(mainArc.inner).outerRadius(mainArc.outer);
 
     const labelArc = { inner: r * 0.9, outer: r * 0.9 };
@@ -71,7 +72,8 @@ const buildPieChart = (id, rawData, selection) => {
         return arc(i(t));
       };
     }
-    svg
+    if(transition){
+      svg
       .selectAll("path")
       .data(arcs)
       .enter()
@@ -81,6 +83,18 @@ const buildPieChart = (id, rawData, selection) => {
       .ease(d3.easeElasticOut.amplitude(1).period(0.99))
       .duration(transitionTime)
       .attrTween("d", tweenPie);
+    }else{
+      svg
+      .selectAll("path")
+      .data(arcs)
+      .enter()
+      .append("path")
+      .attr("fill", (d, i) => color[i])
+      .attr('d', arc)
+
+    }
+
+    
     
     
     //.attr("d", arc);
@@ -104,6 +118,8 @@ function addLegend(svg, margin, r, w, h, mainArc, data, color, mediaQuery){
       .attr('y', (d,i) => -r * 0.95 + (spacing*i))
       .attr('width', r * 0.05)
       .attr('height', r * 0.05)
+      .attr('stroke-width', 0.5)
+      .attr('stroke', '#000')
       .attr('fill', (d,i) => color[i])
   //console.log(mediaQuery)
   g.selectAll('legendLabels')

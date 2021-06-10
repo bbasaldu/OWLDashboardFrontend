@@ -19,7 +19,7 @@ const LineChart = (props) => {
     
     const newStat = s[s.selectedIndex].innerText
     changeLineChart(props.id, player.matches, newStat, true);
-    dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: newStat}))
+    dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: newStat, type: 'line'}))
   }
   
   
@@ -74,7 +74,7 @@ const LineChart = (props) => {
       //console.log(filteredOptionsVar);
       setFilteredOptions(filteredOptionsVar);
       //might change data, since player state already contains player data
-      dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: filteredOptionsVar[0]}))
+      dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: filteredOptionsVar[0], type:'line'}))
       //console.log(filteredOptions)
       console.log(maxStatsIndex);
     }
