@@ -9,7 +9,7 @@
   /* min-height: min-content; */
   /* min-height: 10vh; */
   /* min-width:  50vw; */
-  min-width: 800px;
+  /* min-width: 800px; */
 }
 
 .SubContainer {
@@ -32,38 +32,44 @@
   /*here min-height is using rem, px works as well.*/
 }
 
-.rowContainer {
-  /* margin: auto; */
-  /* margin-top: 0.5%;
-    margin-bottom: 0.5%; */
-  padding: 0rem;
-  width: 100vw;
-  height: 99vh;
-  background-color: none;
-  /* background-color: #fff; */
-  /* border-style: solid; */
-  min-width: 50vw;
-  min-height: 50vh;
-  display: flex;
-  flex-direction: row;
+
+@media not screen and (max-width: 600px){
+  .rowContainer {
+    /* margin: auto; */
+    /* margin-top: 0.5%;
+      margin-bottom: 0.5%; */
+    padding: 0rem;
+    width: 100vw;
+    height: 99vh;
+    background-color: none;
+    /* background-color: #fff; */
+    /* border-style: solid; */
+    min-width: 50vw;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: row;
+  }
+  .rowItem:first-child{
+    margin-right: 0.5%;
+}
 }
 
 
-/* @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
     .rowContainer {
       display: flex;
       flex-direction: column;
-      width: 99vw;
+      width: 100vw;
       height: 99vh;
       min-width: 50vw;
       min-height: 5rem;
     }
   
-    .rowContainer div:first-child{
+    /* .rowContainer div:first-child{
         margin-bottom: 0.5% !important;
-    }
+    } */
    
-  } */
+  }
 
 .rowItem {
   width: 100%;
@@ -75,9 +81,9 @@
   
   /* border-style: solid; */
 }
-.rowItem:first-child{
+/* .rowItem:first-child{
     margin-right: 0.5%;
-}
+} */
 
 
 /* .rowContainer div:first-child{

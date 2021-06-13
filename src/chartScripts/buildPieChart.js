@@ -106,6 +106,7 @@ const buildPieChart = (id, rawData, selection, transition=true) => {
 }
 
 function addLegend(svg, margin, r, w, h, mainArc, data, color, mediaQuery){
+  //Annotations should be based off width only and not height, as they will float right**
   const g = svg.append('g')
     .attr('transform', `translate(${w/2}, ${h/2})`)
   const spacing = r * 0.1
