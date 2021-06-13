@@ -55,12 +55,13 @@ const StatInfo = (props) => {
 
   return (
     <div className={classes.container}>
-      {!isLoading && (
-        <div className={classes.filter}>
-          General Stats - By Hero {options()}
-        </div>
-      )}
       {isLoading && <div>Loading...</div>}
+      {!isLoading &&
+        <div className={classes.filter}>
+          <span>General Stats By Hero </span>
+          {options()}
+        </div>
+      }
       <div className={classes.fill}>
         {!isLoading && info()}
         <div id={props.id}></div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import classes from "./PieChart.module.css";
 import * as d3 from "d3";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,11 +27,11 @@ const PieChart = (props) => {
   const options = () => {
     return (
       <select onChange={changePieData}>
-      {player.stats.all.map((stat, i) => {
-        return <option key={`pieChartOption${i}`}>{stat.name}</option>;
-      })}
-    </select>
-    )
+        {player.stats.all.map((stat, i) => {
+          return <option key={`pieChartOption${i}`}>{stat.name}</option>;
+        })}
+      </select>
+    );
   };
 
   function changePieData(ev) {
@@ -39,7 +39,14 @@ const PieChart = (props) => {
     console.log(s[s.selectedIndex].innerText);
     const newStat = s[s.selectedIndex].innerText;
     changePieChart(props.id, player, newStat);
-    dispatch(playerActions.setPlayerChartData({id:props.id, data: player, selection: newStat, type: 'pie'}))
+    dispatch(
+      playerActions.setPlayerChartData({
+        id: props.id,
+        data: player,
+        selection: newStat,
+        type: "pie",
+      })
+    );
   }
   useEffect(() => {
     console.log(player);
@@ -47,15 +54,27 @@ const PieChart = (props) => {
       console.log(player);
       setIsLoading(false);
       buildPieChart(props.id, player, player.stats.all[0].name);
-      dispatch(playerActions.setPlayerChartData({id:props.id, data: player, selection: player.stats.all[0].name, type: 'pie'}))
+      dispatch(
+        playerActions.setPlayerChartData({
+          id: props.id,
+          data: player,
+          selection: player.stats.all[0].name,
+          type: "pie",
+        })
+      );
     }
   }, [dispatch, props.id, player]);
 
   return (
     <div className={classes.PieChart}>
-      {!isLoading && <div className={classes.filter}>General Stats - By Hero {options()}</div>}
       {isLoading && <div>Loading...</div>}
-      <div className={classes.fill} id={props.id}></div>;
+      {!isLoading &&
+        <div className={classes.filter}>
+          <span>General Stats By Hero </span>
+          {options()}
+        </div>
+      }
+      <div className={classes.fill} id={props.id}></div>
     </div>
   );
 };

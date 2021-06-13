@@ -1,12 +1,7 @@
 import * as d3 from 'd3'
 const buildPercentileLine = (id, percentile, transition=true) => {
 
-    const data = [1,3,4,5,10]
-    const getPercentile = (arr, p) => {
-        const index = Math.round(p*arr.length)
-        return data[index-1]
-    }
-    console.log(getPercentile(data, 0.90))
+    
 
     const container = d3.select(`#${id}`);
     

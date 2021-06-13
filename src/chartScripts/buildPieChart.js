@@ -43,8 +43,8 @@ const buildPieChart = (id, rawData, selection, transition=true) => {
     const h = parseInt(d3.select(`#${id}Svg`).style("height"));
     //I should define global media query
     const mediaQuery = window.matchMedia('(max-width: 700px)');
-    let margin = 25;
-    if(mediaQuery.matches) margin = 50
+    let margin = 0;
+    //if(mediaQuery.matches) margin = 50
 
     //max radius that can fit in container
     //which is why values used in arc functions are fractions of it
@@ -114,22 +114,22 @@ function addLegend(svg, margin, r, w, h, mainArc, data, color, mediaQuery){
     .data(data)
     .enter()
     .append('rect')
-      .attr('x', r * 0.95)
+      .attr('x', r * 0.99)
       .attr('y', (d,i) => -r * 0.95 + (spacing*i))
-      .attr('width', r * 0.05)
-      .attr('height', r * 0.05)
+      .attr('width', r * 0.08)
+      .attr('height', r * 0.08)
       .attr('stroke-width', 0.5)
       .attr('stroke', '#000')
       .attr('fill', (d,i) => color[i])
-  //console.log(mediaQuery)
+  console.log(mediaQuery)
   g.selectAll('legendLabels')
     .data(data)
     .enter()
     .append('text')
-      .attr('x', r * 1.05)
+      .attr('x', r * 1.08)
       .attr('y', (d,i) => -r * 0.95 + (spacing*i) + (mediaQuery.matches?5:10))
-      //.attr('font-size', '1.5vw')
-      .attr('font-size', mediaQuery.matches?'10px':'16px')
+      .attr('font-size', '1.25vw')
+      //.attr('font-size', mediaQuery.matches?'10px':'16px')
       .text(d => d.label)
       
 }

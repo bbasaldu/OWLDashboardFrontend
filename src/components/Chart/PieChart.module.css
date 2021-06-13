@@ -3,6 +3,14 @@
     height: 100%;
     padding: 0rem;
     margin: 0rem;
+    /* 
+    display flex fixed issue with pie chart moving down a bit when select tag wraps
+    i think flex auto resizes fill class height to fit
+     */
+    display: flex;
+    flex-direction: column;
+    
+    
 }
 /* @media only screen and (max-width: 600px) {
     .PieChart {
@@ -12,15 +20,66 @@
 
 .fill{
     width: 100%;
+    /* min-height: 90%; */
     height: 95%;
-    padding: 0rem;
-    margin: 0rem;
+    
+    /* height: 95%;*/
+    /* max-height: 90%;
+    min-height: 50%; */
+
+    
+    
 }
 .filter{
+    /* 
+    setting the height prop here makes the svg container div think the height is always 4%,
+    which means when the select tag wraps the svg container overlaps it thinking the filter container is higher above
+     */
     width: 100%;
-    height: 4%;
+    /* height auto is default -> usually means height is set from its children so here it scales to fit stat and select which makes sense */
+    /* height: 4%; */
+    /* min-height: 4%;
+    max-height: 100%; */
     padding-top: 1%;
     padding-left: 1%;
-    margin: 0rem;  
+    margin: 0rem;
+    
+    /* overflow-x:scroll */
+    /* white-space: nowrap;   */
 }
+/* .filter select, option{
+    white-space: nowrap;
+    
+} */
+/* .filter :first-child{
+    width: 50%;
+    margin: 0rem;
+} */
+
+.test{
+    /* font-size: 5vh; */
+    height: 5%;
+    margin-bottom: 1%;
+    width: 50%;
+}
+.test2{
+    display: inline;
+    height: 10%;
+}
+/* .test2 option{
+    margin: 0%;
+    padding: 0%;
+    min-height: 1%;
+} */
+
+/* .filter select{
+    margin: 0%;
+    padding: 0%;
+}
+
+.filter option{
+    margin: 0%;
+    padding: 0%;
+} */
+
 

@@ -86,8 +86,13 @@ const LineChart = (props) => {
 
   return (
     <div className={classes.RectChart}>
-      {!isloading && <div className={classes.filter}>General Stats - By Match {options()}</div>}
       {isloading && <div>Loading...</div>}
+      {!isloading &&
+        <div className={classes.filter}>
+          <span>General Stats - By Match </span>
+          {options()}
+        </div>
+      }
       <div className={classes.fill} id={props.id}></div>
     </div>
   );
