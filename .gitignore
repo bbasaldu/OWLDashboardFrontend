@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/src/setupTests.js
+/src//setupTests.js
 /src/reportWebVitals.js
 /src/logo.svg
 
