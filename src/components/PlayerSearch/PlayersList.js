@@ -1,7 +1,7 @@
 import classes from "./PlayersList.module.css";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+//import { useMemo } from "react";
+import {useHistory, useRouteMatch } from "react-router-dom";
 const PlayersList = () => {
   const players = useSelector((state) => state.player.players);
     const match = useRouteMatch()

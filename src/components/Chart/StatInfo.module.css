@@ -3,6 +3,10 @@
     height: 100%;
     padding: 0rem;
     margin: 0rem;
+
+    display: flex;
+    flex-direction: column;
+    
 }
 
 
@@ -31,15 +35,31 @@
     
 }
 
-.fill div{
-    max-height: 20%;
-    
-    height: 100%;
-    width: 100%;
-    /* margin-top: 5%; */
-    text-align: center;
-    font-size: 2vw;
-    
+
+@media not screen and (max-width: 600px){
+    .fill div{
+        max-height: 20%;
+        
+        height: 100%;
+        width: 100%;
+        /* margin-top: 5%; */
+        text-align: center;
+        font-size: 2vw;
+        
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .fill div{
+        max-height: 20%;
+        
+        height: 100%;
+        width: 100%;
+        /* margin-top: 5%; */
+        text-align: center;
+        font-size: 2vh;
+        
+    }
 }
 
 
@@ -48,7 +68,7 @@
 .filter{
     /* width need to be 99% i think because of margin right from left row container */
     width: 99%;
-    height: 4%;
+    /* height: 4%; */
     padding-top: 1%;
     padding-left: 1%;
     margin: 0rem;  

@@ -32,8 +32,7 @@
   /*here min-height is using rem, px works as well.*/
 }
 
-
-@media not screen and (max-width: 600px){
+@media not screen and (max-width: 900px) {
   .rowContainer {
     /* margin: auto; */
     /* margin-top: 0.5%;
@@ -49,42 +48,39 @@
     display: flex;
     flex-direction: row;
   }
-  .rowItem:first-child{
+  .rowItem:first-child {
     margin-right: 0.5%;
-}
+  }
 }
 
+@media only screen and (max-width: 900px) {
+  .rowContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 99vh;
+    /* min-width: 50vw;
+      min-height: 5rem; */
+  }
 
-@media only screen and (max-width: 600px) {
-    .rowContainer {
-      display: flex;
-      flex-direction: column;
-      width: 100vw;
-      height: 99vh;
-      min-width: 50vw;
-      min-height: 5rem;
-    }
-  
-    /* .rowContainer div:first-child{
+  /* .rowContainer div:first-child{
         margin-bottom: 0.5% !important;
     } */
-   
-  }
+}
 
 .rowItem {
   width: 100%;
   height: 100%;
   margin: 0rem;
-  
+
   padding: 0rem;
   background-color: #fff;
-  
+
   /* border-style: solid; */
 }
 /* .rowItem:first-child{
     margin-right: 0.5%;
 } */
-
 
 /* .rowContainer div:first-child{
     margin-right: 0.5%;

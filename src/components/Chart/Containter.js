@@ -1,11 +1,8 @@
-
-import { useEffect, useRef } from "react";
 import classes from "./Container.module.css";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import StatInfo from "./StatInfo";
 const Container = (props) => {
-  
   // const containerRef = useRef(null)
   //  useEffect(() => {
   //   containerRef.current.scrollIntoView({behavior: 'smooth'})
@@ -18,29 +15,18 @@ const Container = (props) => {
   //By matches(ticks are matches only) or By maps(ticks show matches with maps in between, or some other cool way)
   return (
     <div className={classes.Container}>
-      
-      
       <div className={classes.rowContainer}>
-      
         <div className={classes.rowItem}>
-        
-          <PieChart id="pieChart"/>
-        
+          <PieChart id="pieChart" />
         </div>
         <div className={classes.rowItem}>
-          <StatInfo id="pLine"/>
+          <StatInfo id="pLine" />
         </div>
-          
       </div>
 
-
-      
       <div className={classes.SubContainer}>
-      
-          <LineChart id="lineChart"/>
-          
+        <LineChart id="lineChart" />
       </div>
-
     </div>
   );
 };

@@ -11,23 +11,31 @@ const StatInfo = (props) => {
   const player = useSelector((state) => state.player.currentPlayer);
   const [isLoading, setIsLoading] = useState(true);
   const [stat, setStat] = useState(0);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   function changeInfoData(ev) {
     const s = ev.target.options;
-    console.log(s[s.selectedIndex].innerText);
-    const newStat = s[s.selectedIndex].innerText;
+    //console.log(s[s.selectedIndex].innerText);
+    //const newStat = s[s.selectedIndex].innerText;
     setStat(player.stats.all[s.selectedIndex]);
     changePercentileLine(
       props.id,
       player.stats.all[s.selectedIndex].percentile
     );
-    dispatch(playerActions.setPlayerChartData({id: props.id, data: player.stats.all[s.selectedIndex].percentile, type:'percentile'}))
+    dispatch(
+      playerActions.setPlayerChartData({
+        id: props.id,
+        data: player.stats.all[s.selectedIndex].percentile,
+        type: "percentile",
+      })
+    );
     //changePieChart(props.id, player, newStat);
   }
   const info = () => {
     return (
       <Fragment>
-        <div className={classes.statAmount}>{d3.format(',')(stat.value.toFixed(0))}</div>
+        <div className={classes.statAmount}>
+          {d3.format(",")(stat.value.toFixed(0))}
+        </div>
         {/* <div>League average: xxx</div> */}
         <div>Rank: {stat.ranking}</div>
         <div>{`${stat.percentile * 100}`.split(".")[0]} percentile</div>
@@ -48,7 +56,13 @@ const StatInfo = (props) => {
     if (player !== null) {
       setStat(player.stats.all[0]);
       buildPercentileLine(props.id, player.stats.all[0].percentile);
-      dispatch(playerActions.setPlayerChartData({id: props.id, data: player.stats.all[0].percentile, type:'percentile'}))
+      dispatch(
+        playerActions.setPlayerChartData({
+          id: props.id,
+          data: player.stats.all[0].percentile,
+          type: "percentile",
+        })
+      );
       setIsLoading(false);
     }
   }, [props.id, player, dispatch]);
@@ -56,12 +70,12 @@ const StatInfo = (props) => {
   return (
     <div className={classes.container}>
       {isLoading && <div>Loading...</div>}
-      {!isLoading &&
+      {!isLoading && (
         <div className={classes.filter}>
           <span>General Stats By Hero </span>
           {options()}
         </div>
-      }
+      )}
       <div className={classes.fill}>
         {!isLoading && info()}
         <div id={props.id}></div>

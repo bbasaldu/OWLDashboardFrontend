@@ -3,8 +3,8 @@ import * as d3 from "d3";
 import classes from "./LineChart.module.css";
 import { useDispatch, useSelector } from "react-redux";
 //import { chartActions } from "../../store/chartSlice";
-import {playerActions} from "../../store/playerSlice.js";
-import { Delaunay } from "d3-delaunay";
+import { playerActions } from "../../store/playerSlice.js";
+//import { Delaunay } from "d3-delaunay";
 import buildLineChart from "../../chartScripts/buildLineChart.js";
 import changeLineChart from "../../chartScripts/changeLineChart.js";
 
@@ -15,30 +15,32 @@ const LineChart = (props) => {
   const [isloading, setIsLoading] = useState(true);
 
   function changeLineData(ev) {
-    const s = ev.target.options
-    
-    const newStat = s[s.selectedIndex].innerText
+    const s = ev.target.options;
+
+    const newStat = s[s.selectedIndex].innerText;
     changeLineChart(props.id, player.matches, newStat, true);
-    dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: newStat, type: 'line'}))
+    dispatch(
+      playerActions.setPlayerChartData({
+        id: props.id,
+        data: player.matches,
+        selection: newStat,
+        type: "line",
+      })
+    );
   }
-  
-  
- const options = () => {
-  return (
-    <select onChange={changeLineData}>
-      {filteredOptions.map((stat, i) => {
-        return <option key={`lineChartOption${i}`}>{stat}</option>;
-      })}
-    </select>
-  )
- }
- 
-    
-  
-  
+
+  const options = () => {
+    return (
+      <select onChange={changeLineData}>
+        {filteredOptions.map((stat, i) => {
+          return <option key={`lineChartOption${i}`}>{stat}</option>;
+        })}
+      </select>
+    );
+  };
+
   useEffect(() => {
     if (player !== null) {
-      
       let filteredOptionsVar = [];
       //not all matches share the same number of stats
       //this doesn't work for whats supposed to be a 'continous' plot of match stat data
@@ -74,9 +76,16 @@ const LineChart = (props) => {
       //console.log(filteredOptionsVar);
       setFilteredOptions(filteredOptionsVar);
       //might change data, since player state already contains player data
-      dispatch(playerActions.setPlayerChartData({id:props.id, data: player.matches, selection: filteredOptionsVar[0], type:'line'}))
+      dispatch(
+        playerActions.setPlayerChartData({
+          id: props.id,
+          data: player.matches,
+          selection: filteredOptionsVar[0],
+          type: "line",
+        })
+      );
       //console.log(filteredOptions)
-      console.log(maxStatsIndex);
+      //console.log(maxStatsIndex);
     }
 
     // dispatch(
@@ -87,12 +96,12 @@ const LineChart = (props) => {
   return (
     <div className={classes.RectChart}>
       {isloading && <div>Loading...</div>}
-      {!isloading &&
+      {!isloading && (
         <div className={classes.filter}>
           <span>General Stats - By Match </span>
           {options()}
         </div>
-      }
+      )}
       <div className={classes.fill} id={props.id}></div>
     </div>
   );

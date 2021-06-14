@@ -1,7 +1,7 @@
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import Layout from './components/Layout';
 import AllPlayers from './pages/AllPlayers';
 import {playerActions} from './store/playerSlice.js';

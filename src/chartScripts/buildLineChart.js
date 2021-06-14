@@ -44,7 +44,7 @@ const buildLineChart = (id, rawData, selection, transition) => {
     left: maxValue > 1000 ? 50 : 35,
     right: 25,
     top: 10,
-    bottom: 30,
+    bottom: h*0.1,
   };
   let xScale = d3
     .scalePoint()

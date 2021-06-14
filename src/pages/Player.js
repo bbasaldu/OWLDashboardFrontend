@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import DashBoard from "../components/DashBoard/DashBoard";
@@ -8,7 +8,7 @@ import {playerActions} from '../store/playerSlice.js';
 const Player = (props) => {
     const params = useParams()
     const dispatch = useDispatch()
-    const [isLoading, setIsLoading] = useState(true)
+    //const [isLoading, setIsLoading] = useState(true)
     //const [playerData, setPlayerData] = useState(null)
     useEffect(() => {
     
@@ -18,7 +18,7 @@ const Player = (props) => {
           //dispatch(playerActions.setPlayers(resData.players))
           //setPlayerData(resData.foundPlayer)
           dispatch(playerActions.setPlayer(resData.foundPlayer))
-          console.log(resData.foundPlayer)
+          //console.log(resData.foundPlayer)
           d3.select('#lineChart').node().scrollIntoView({behavior: 'smooth'})
         }
         getPlayerData()
