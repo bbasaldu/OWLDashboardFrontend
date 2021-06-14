@@ -7,9 +7,9 @@
 
 # testing
 /coverage
-./setupTests.js
-./reportWebVitals.js
-./logo.svg
+/src/setupTests.js
+/src/reportWebVitals.js
+/src/logo.svg
 
 
 # production
