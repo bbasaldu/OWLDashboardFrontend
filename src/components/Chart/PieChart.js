@@ -7,7 +7,7 @@ import changePieChart from "../../chartScripts/changePie.js";
 //import buildLineChart from "../../chartScripts/buildLineChart";
 import { playerActions } from "../../store/playerSlice.js";
 
-
+import React from 'react'
 const PieChart = (props) => {
   const dispatch = useDispatch();
   const player = useSelector((state) => state.player.currentPlayer);
@@ -39,8 +39,9 @@ const PieChart = (props) => {
   }
   useEffect(() => {
     //console.log(player);
-    if (player !== null) {
-      console.log(player);
+    //might need to do this for for other charts since it can be undefined?
+    if (player) {
+      //console.log(player);
       setIsLoading(false);
       buildPieChart(props.id, player, player.stats.all[0].name);
       dispatch(
@@ -59,7 +60,7 @@ const PieChart = (props) => {
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <div className={classes.filter}>
-          <span>General Stats By Hero </span>
+          <span>General Stats By Hero (All Matches)</span>
           {options()}
         </div>
       )}

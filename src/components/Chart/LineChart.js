@@ -7,7 +7,7 @@ import { playerActions } from "../../store/playerSlice.js";
 //import { Delaunay } from "d3-delaunay";
 import buildLineChart from "../../chartScripts/buildLineChart.js";
 import changeLineChart from "../../chartScripts/changeLineChart.js";
-
+import React from 'react'
 const LineChart = (props) => {
   const dispatch = useDispatch();
   const player = useSelector((state) => state.player.currentPlayer);
@@ -40,7 +40,7 @@ const LineChart = (props) => {
   };
 
   useEffect(() => {
-    if (player !== null) {
+    if (player) {
       let filteredOptionsVar = [];
       //not all matches share the same number of stats
       //this doesn't work for whats supposed to be a 'continous' plot of match stat data

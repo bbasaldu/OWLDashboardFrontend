@@ -1,5 +1,6 @@
 import classes from "./PlayersList.module.css";
 import { useSelector } from "react-redux";
+import React from 'react'
 //import { useMemo } from "react";
 import {useHistory, useRouteMatch } from "react-router-dom";
 const PlayersList = () => {

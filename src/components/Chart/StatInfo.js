@@ -6,7 +6,7 @@ import classes from "./StatInfo.module.css";
 import * as d3 from "d3";
 import changePercentileLine from "../../chartScripts/changePercentileLine";
 import { playerActions } from "../../store/playerSlice.js";
-
+import React from 'react'
 const StatInfo = (props) => {
   const player = useSelector((state) => state.player.currentPlayer);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +53,7 @@ const StatInfo = (props) => {
   };
 
   useEffect(() => {
-    if (player !== null) {
+    if (player) {
       setStat(player.stats.all[0]);
       buildPercentileLine(props.id, player.stats.all[0].percentile);
       dispatch(
@@ -72,7 +72,7 @@ const StatInfo = (props) => {
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
         <div className={classes.filter}>
-          <span>General Stats By Hero </span>
+          <span>General Stats By Hero (All Matches)</span>
           {options()}
         </div>
       )}

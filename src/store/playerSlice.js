@@ -19,6 +19,9 @@ const playerSlice = createSlice({
             else{
                 state.playerChartData[foundChartIndex] = newChart
             }
+        },
+        clearPlayerChartData(state){
+            state.playerChartData = []
         }
     }
 })

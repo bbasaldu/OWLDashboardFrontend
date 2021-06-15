@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react"
+import React, { Fragment, useEffect } from "react"
 import Container from "../Chart/Containter"
 import classes from './DashBoard.module.css'
 import * as d3 from 'd3'
@@ -6,6 +6,7 @@ const DashBoard = (props) => {
     //put charts into div
     useEffect(() => {
         //to ensure svgs are erased on each player dashboard
+        //Need to remove after leaving dashboard page instead ***
         d3.selectAll('svg').remove()
     }, [])
     return (

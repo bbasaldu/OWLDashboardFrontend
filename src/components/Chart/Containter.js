@@ -2,6 +2,7 @@ import classes from "./Container.module.css";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import StatInfo from "./StatInfo";
+import React from 'react'
 const Container = (props) => {
   // const containerRef = useRef(null)
   //  useEffect(() => {

@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import DashBoard from "../components/DashBoard/DashBoard";
 import * as d3 from 'd3'
 import {playerActions} from '../store/playerSlice.js';
+import React from 'react'
 //on data loading show modal and scroll to bottom
 const Player = (props) => {
     const params = useParams()

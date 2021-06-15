@@ -1,0 +1,9 @@
+.tooltip{
+    opacity: 1 !important;
+}
+
+.content{
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 1;
+}
