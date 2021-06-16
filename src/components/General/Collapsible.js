@@ -5,6 +5,7 @@ import * as d3 from "d3";
 const Collapsible = (props) => {
   const [isShowing, setIsShowing] = useState(false);
   const contentRef = useRef()
+  
   const showContent = () => {
     setIsShowing((lastState) => !lastState);
   };
