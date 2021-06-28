@@ -9,6 +9,7 @@ import { playerActions } from "../../store/playerSlice.js";
 
 import React from 'react'
 const PieChart = (props) => {
+  const theme = useSelector(state => state.ui.theme)
   const dispatch = useDispatch();
   const player = useSelector((state) => state.player.currentPlayer);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,10 +41,10 @@ const PieChart = (props) => {
   useEffect(() => {
     //console.log(player);
     //might need to do this for for other charts since it can be undefined?
-    if (player) {
+    if (player && (theme.primary !== null)) {
       //console.log(player);
       setIsLoading(false);
-      buildPieChart(props.id, player, player.stats.all[0].name);
+      buildPieChart(props.id, player, player.stats.all[0].name, true, theme.tertiary);
       dispatch(
         playerActions.setPlayerChartData({
           id: props.id,
@@ -53,13 +54,15 @@ const PieChart = (props) => {
         })
       );
     }
-  }, [dispatch, props.id, player]);
-
+  }, [dispatch, props.id, player, theme]);
+  // return (
+  //   <div className={classes.fill2} id={props.id}></div>
+  // )
   return (
-    <div className={classes.PieChart}>
+    <div className={classes.PieChart} style={{backgroundColor: theme.primary}}>
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
-        <div className={classes.filter}>
+        <div className={classes.filter} style={{color: theme.tertiary}}>
           <span>General Stats By Hero (All Matches)</span>
           {options()}
         </div>

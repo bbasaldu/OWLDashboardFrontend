@@ -34,18 +34,36 @@ const buildLineChart = (id, rawData, selection, transition) => {
     .attr("width", "100%")
     .attr("height", "100%");
 
-  const w = parseInt(d3.select(`#${id}Svg`).style("width"));
+  const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
 
-  const h = parseInt(d3.select(`#${id}Svg`).style("height"));
+  const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
 
   const maxValue = d3.max(data, (d) => d.statValue);
-
+  const fontSize = '1vw'
+  
+  const getBBox = (svg,text) => {
+    const textSvg = svg
+        .append('text')
+        .attr('font-size', fontSize)
+        .text(text)
+    const dim = textSvg.node().getBoundingClientRect()
+    textSvg.remove()
+    return dim
+}
+const tickDim = getBBox(svg, data[0].date)
+  // const margin = {
+  //   left: maxValue > 1000 ? 50 : 35,
+  //   right: 25,
+  //   top: 10,
+  //   bottom: h*0.1,
+  // };
+  //console.log(tickDim)
   const margin = {
-    left: maxValue > 1000 ? 50 : 35,
-    right: 25,
-    top: 10,
-    bottom: h*0.1,
-  };
+    left: w*0.05,
+    right: w*0.025,
+    top: tickDim.height,
+    bottom: tickDim.height*2
+  }
   let xScale = d3
     .scalePoint()
     .domain(data.map((d) => d.date))
@@ -110,5 +128,7 @@ const buildLineChart = (id, rawData, selection, transition) => {
       .ease(transitionEase)
       .attr("stroke-dashoffset", 0);
   }
+  svg.selectAll('text')
+    .attr('font-size', fontSize)
 };
 export default buildLineChart;

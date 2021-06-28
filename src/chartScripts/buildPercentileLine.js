@@ -1,5 +1,7 @@
 import * as d3 from "d3";
-const buildPercentileLine = (id, percentile, transition = true) => {
+
+
+const buildPercentileLine = (id, percentile, transition = true, lastPercentile=0) => {
   const container = d3.select(`#${id}`);
 
   const svg = container
@@ -8,13 +10,13 @@ const buildPercentileLine = (id, percentile, transition = true) => {
     .attr("width", "100%")
     .attr("height", "100%");
 
-  const w = parseInt(d3.select(`#${id}Svg`).style("width"));
+  const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
 
-  //const h = parseInt(d3.select(`#${id}Svg`).style("height"));
+  const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
 
   const r = w * 0.015; //Math.min(w, h) * 0.5
 
-  const margin = { left: 20, right: 20, top: 20, bottom: 20 };
+  const margin = { left: w*0.05, right: w*0.05, top: r, bottom:  100};
 
   let xScale = d3
     .scaleLinear()
@@ -31,11 +33,35 @@ const buildPercentileLine = (id, percentile, transition = true) => {
         .tickValues([0, 25, 50, 75, 100])
         .tickFormat((d) => `${d}%`)
     );
-  svg
+  const point = svg
     .append("circle")
+    .attr('id', 'percentilePoint')
     .attr("cx", xScale(percentile * 100))
     .attr("cy", margin.top)
     .attr("r", r)
     .attr("fill", "#8bc");
+      const fontSize = (w>h)?'2vh':'2vw'
+  svg.selectAll('text')
+    .attr('font-size', fontSize)
 };
+
+export const changePercentile = (id, newPercentile) => {
+  //const container = d3.select(`#${id}`);
+  const time = 1000;
+  const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
+
+  //const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
+
+  const r = w * 0.015; //Math.min(w, h) * 0.5
+
+  const margin = { left: w*0.05, right: w*0.05, top: r, bottom:  100};
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, 100])
+    .range([margin.left, w - margin.right]);
+  d3.select(`#percentilePoint`)
+    .transition().duration(time)
+    .attr("cx", xScale(newPercentile * 100))
+}
+
 export default buildPercentileLine;

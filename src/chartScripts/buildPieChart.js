@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 const getBBox = () => {};
 
-const buildPieChart = (id, rawData, selection, transition = true) => {
+const buildPieChart = (id, rawData, selection, transition = true, textColor = '#000') => {
   const color = [
     "#FF6633",
     "#FFB399",
@@ -55,9 +55,13 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
     "#99E6E6",
     "#6666FF",
   ];
+  let longestLabel = ''
   let data = rawData.stats.byHero.map((hero, i) => {
     const label = hero.name;
     const foundStat = hero.stats.find((s) => s.name === selection);
+    if(label.length > longestLabel.length){
+      longestLabel = label
+    }
     let value;
     if (foundStat) {
       value = foundStat.value;
@@ -73,6 +77,8 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
   data = data.filter((d) => d.value !== 0);
   //console.log(data)
 
+  
+
   const container = d3.select(`#${id}`);
   let svg = container
     .append("svg")
@@ -81,21 +87,38 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
     .attr("width", "100%")
     .attr("height", "100%");
 
-  const w = parseInt(d3.select(`#${id}Svg`).style("width"));
+  const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
 
-  const h = parseInt(d3.select(`#${id}Svg`).style("height"));
+  const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
+  const fontSize = (w>(h*1.3))?'4vh':'1.5vw'
+  const getBBox = (svg,text) => {
+    const textSvg = svg
+        .append('text')
+        .attr('font-size', fontSize)
+        .text(text)
+    const dim = textSvg.node().getBoundingClientRect()
+    textSvg.remove()
+    return dim
+}
+  const bbox = getBBox(svg, longestLabel)
   //I should define global media query
   const mediaQuery = window.matchMedia("(max-width: 900px)");
-  let margin = 0;
+  const spacing = (w*0.025)
+  const symbolDim = bbox.height
+  const textDim = bbox.width + spacing//+ legendSymbolWidth;
+  const margin = textDim + symbolDim + spacing
+  //let margin = 0;
   //if(mediaQuery.matches) margin = 50
 
   //max radius that can fit in container
   //which is why values used in arc functions are fractions of it
   //to make room for labels and such to fit
-  const r = Math.min(w, h) / 2 - margin;
+  const mh = h*0.1
+  const r = Math.min((w-margin), h) / 2 ;
 
   //g
-  svg = svg.append("g").attr("transform", `translate(${w / 2}, ${h / 2})`);
+  const g = svg.append("g").attr("transform", `translate(${(w-margin) / 2}, ${h / 2})`);
+  //svg = svg.append("g").attr("transform", `translate(${w / 2}, ${h / 2})`);
   //const color = d3.schemeCategory10;
   const pie = d3.pie().value((d) => d.value);
   const arcs = pie(data);
@@ -116,7 +139,7 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
     };
   }
   if (transition) {
-    svg
+    g
       .selectAll("path")
       .data(arcs)
       .enter()
@@ -127,7 +150,7 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
       .duration(transitionTime)
       .attrTween("d", tweenPie);
   } else {
-    svg
+    g
       .selectAll("path")
       .data(arcs)
       .enter()
@@ -135,22 +158,54 @@ const buildPieChart = (id, rawData, selection, transition = true) => {
       .attr("fill", (d, i) => color[i])
       .attr("d", arc);
   }
-
+  let range =[]
+  if(h<w){
+    range = [(h/2)+(r*0.95), (h/2)-(r*0.95)]
+  }
+  else{
+    range = [((w-margin)/2)+(r*0.95), ((w-margin)/2)-(r*0.95)]
+  }
+  const yScale = d3.scaleBand()
+    .domain(data.map(d => d.label))
+    .range([(h/2)-(r*0.90), (h/2)+(r*0.90)])
+    .padding(0.5)
+  
+  svg.selectAll('legendSymbol')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('y', d => yScale(d.label))
+    .attr('x', ((w-margin)/2) + (r*0.95) + spacing)
+    .attr('width', symbolDim)
+    .attr('height', yScale.bandwidth)
+    .attr('fill', (d,i) => color[i])
+    .attr('stroke', '#000')
+    
+    svg.selectAll('legendLabels')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('y', d => yScale(d.label)+yScale.bandwidth())
+      .attr('x', ((w-margin)/2) + (r*0.95) + symbolDim + spacing*2)
+      .attr('font-size', fontSize)
+      .attr('fill', textColor)
+      .text(d => d.label)
+  console.log(textColor)
   //.attr("d", arc);
   //https://www.d3-graph-gallery.com/graph/donut_label.html
   //borrowed this cus labels look so nice here.
   //addAnnotation(svg, arcs, arc, outerArc, r, transitionTime)
-  addLegend(
-    d3.select("svg"),
-    margin,
-    r,
-    w,
-    h,
-    mainArc,
-    data,
-    color,
-    mediaQuery
-  );
+  // addLegend(
+  //   d3.select("svg"),
+  //   margin,
+  //   r,
+  //   w,
+  //   h,
+  //   mainArc,
+  //   data,
+  //   color,
+  //   mediaQuery
+  // );
 };
 
 function addLegend(svg, margin, r, w, h, mainArc, data, color, mediaQuery) {

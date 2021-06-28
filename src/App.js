@@ -29,7 +29,16 @@ function App() {
       }
     };
   }, [charts, location]);
-
+  useEffect(() => {
+    const getPlayers = async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_DOMAIN}api/v1/teams/colors/Fuel`
+      );
+      const resData = await res.json();
+      console.log(resData)
+    };
+    getPlayers();
+  }, []);
   useEffect(() => {
     const getPlayers = async () => {
       const res = await fetch(

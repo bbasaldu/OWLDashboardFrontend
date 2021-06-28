@@ -1,6 +1,12 @@
+.headerContainer {
+    width: 99vw;
+    height: 100%;
+    /* background-color: #eee; */
+    padding-bottom: 0.5%;
+}
 .playerHeader {
     padding: 0.5%;
     width: 99vw;
     background-color: #fff;
-    margin-bottom: 0.5%;
+    /* margin-bottom: 0.5%; */
 }

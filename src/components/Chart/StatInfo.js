@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import buildPercentileLine from "../../chartScripts/buildPercentileLine";
+import buildPercentileLine, { changePercentile } from "../../chartScripts/buildPercentileLine";
 import classes from "./StatInfo.module.css";
 import * as d3 from "d3";
 import changePercentileLine from "../../chartScripts/changePercentileLine";
@@ -12,15 +12,36 @@ const StatInfo = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [stat, setStat] = useState(0);
   const dispatch = useDispatch();
+  const percentileToString = (percentile) => {
+    const temp = `${percentile * 100}`.split(".")[0]
+    let fullString;
+    const lastNum = parseInt(temp[temp.length-1])
+    //console.log(lastNum)
+    if(lastNum === 1 && temp!=='11'){
+      fullString = temp+'st'
+    }
+    else if(lastNum === 2){
+      fullString = temp+'nd'
+    }
+    else if(lastNum === 3){
+      fullString = temp+'rd'
+    }
+    else {
+      fullString = temp+'th'
+    }
+
+    return fullString
+  }
   function changeInfoData(ev) {
     const s = ev.target.options;
     //console.log(s[s.selectedIndex].innerText);
     //const newStat = s[s.selectedIndex].innerText;
     setStat(player.stats.all[s.selectedIndex]);
-    changePercentileLine(
-      props.id,
-      player.stats.all[s.selectedIndex].percentile
-    );
+    changePercentile(props.id, player.stats.all[s.selectedIndex].percentile)
+    // changePercentileLine(
+    //   props.id,
+    //   player.stats.all[s.selectedIndex].percentile
+    // );
     dispatch(
       playerActions.setPlayerChartData({
         id: props.id,
@@ -38,7 +59,7 @@ const StatInfo = (props) => {
         </div>
         {/* <div>League average: xxx</div> */}
         <div>Rank: {stat.ranking}</div>
-        <div>{`${stat.percentile * 100}`.split(".")[0]} percentile</div>
+        <div>{percentileToString(stat.percentile)} percentile</div>
       </Fragment>
     );
   };
