@@ -11,14 +11,15 @@ import React from 'react'
 const LineChart = (props) => {
   const dispatch = useDispatch();
   const player = useSelector((state) => state.player.currentPlayer);
+  const theme = useSelector(state => state.ui.theme)
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isloading, setIsLoading] = useState(true);
-
+  const loading = useSelector(state => state.ui.loading)
   function changeLineData(ev) {
     const s = ev.target.options;
 
     const newStat = s[s.selectedIndex].innerText;
-    changeLineChart(props.id, player.matches, newStat, true);
+    changeLineChart(props.id, player.matches, newStat, true, theme);
     dispatch(
       playerActions.setPlayerChartData({
         id: props.id,
@@ -40,7 +41,7 @@ const LineChart = (props) => {
   };
 
   useEffect(() => {
-    if (player) {
+    if (!loading) {
       let filteredOptionsVar = [];
       //not all matches share the same number of stats
       //this doesn't work for whats supposed to be a 'continous' plot of match stat data
@@ -71,7 +72,7 @@ const LineChart = (props) => {
           filteredOptionsVar.push(statName);
         }
       });
-      buildLineChart(props.id, player.matches, filteredOptionsVar[0], true);
+      buildLineChart(props.id, player.matches, filteredOptionsVar[0], true, theme);
       setIsLoading(false);
       //console.log(filteredOptionsVar);
       setFilteredOptions(filteredOptionsVar);
@@ -91,13 +92,13 @@ const LineChart = (props) => {
     // dispatch(
     //   chartActions.addChartVars({ data, id: props.id, margin, type: "line" })
     // );
-  }, [props.id, dispatch, player]);
+  }, [props.id, dispatch, player, loading, theme]);
 
   return (
-    <div className={classes.RectChart}>
-      {isloading && <div>Loading...</div>}
-      {!isloading && (
-        <div className={classes.filter}>
+    <div className={classes.RectChart} style={{backgroundColor: theme.primary}}>
+      {loading && <div>Loading...</div>}
+      {!loading && (
+        <div className={classes.filter} style={{color:theme.tertiary}}>
           <span>General Stats - By Match </span>
           {options()}
         </div>

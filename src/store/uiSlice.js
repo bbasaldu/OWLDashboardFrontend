@@ -5,12 +5,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiSlice = createSlice({
     name: 'ui',
     initialState: {
-        loading: false,
+        loading: true,
         theme: {
             primary: null,
             secondary: null,
             tertiary: null
-        }
+        },
+        logoPath: null
     },
     reducers: {
         setTheme(state, action){
@@ -20,7 +21,14 @@ const uiSlice = createSlice({
                 secondary: colors.Secondary,
                 tertiary: colors.Tertiary
             }
+        },
+        setLoading(state, action){
+            state.loading = action.payload
+        },
+        setLogoPath(state, action){
+            state.logoPath = action.payload
         }
+
     }
 })
 export const uiActions = uiSlice.actions;

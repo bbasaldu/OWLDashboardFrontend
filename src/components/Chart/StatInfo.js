@@ -9,9 +9,11 @@ import { playerActions } from "../../store/playerSlice.js";
 import React from 'react'
 const StatInfo = (props) => {
   const player = useSelector((state) => state.player.currentPlayer);
+  const theme = useSelector(state => state.ui.theme)
   const [isLoading, setIsLoading] = useState(true);
   const [stat, setStat] = useState(0);
   const dispatch = useDispatch();
+  const loading = useSelector(state => state.ui.loading)
   const percentileToString = (percentile) => {
     const temp = `${percentile * 100}`.split(".")[0]
     let fullString;
@@ -74,9 +76,9 @@ const StatInfo = (props) => {
   };
 
   useEffect(() => {
-    if (player) {
+    if (!loading) {
       setStat(player.stats.all[0]);
-      buildPercentileLine(props.id, player.stats.all[0].percentile);
+      buildPercentileLine(props.id, player.stats.all[0].percentile,theme);
       dispatch(
         playerActions.setPlayerChartData({
           id: props.id,
@@ -86,18 +88,20 @@ const StatInfo = (props) => {
       );
       setIsLoading(false);
     }
-  }, [props.id, player, dispatch]);
+  }, [props.id, player, dispatch, loading, theme]);
 
   return (
     <div className={classes.container}>
       {isLoading && <div>Loading...</div>}
       {!isLoading && (
-        <div className={classes.filter}>
+        <div className={classes.filter} style={{color: theme.tertiary,
+          backgroundColor: theme.primary}}>
           <span>General Stats By Hero (All Matches)</span>
           {options()}
         </div>
       )}
-      <div className={classes.fill}>
+      <div className={classes.fill} style={{color: theme.tertiary,
+         backgroundColor: theme.primary}}>
         {!isLoading && info()}
         <div id={props.id}></div>
       </div>

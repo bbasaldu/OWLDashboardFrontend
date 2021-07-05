@@ -19,26 +19,30 @@ function App() {
   const dispatch = useDispatch();
   const charts = useSelector((state) => state.player.playerChartData);
   const location = useLocation();
-
+  const theme = useSelector(state => state.ui.theme)
   useEffect(() => {
     
     window.onresize = () => {
       
       if (location.pathname.includes('/players/')) {
-        resizeCharts(charts);
+        resizeCharts(charts, theme);
       }
     };
-  }, [charts, location]);
-  useEffect(() => {
-    const getPlayers = async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_DOMAIN}api/v1/teams/colors/Fuel`
-      );
-      const resData = await res.json();
-      console.log(resData)
-    };
-    getPlayers();
-  }, []);
+  }, [charts, location, theme]);
+  // useEffect(() => {
+  //   d3.selectAll('svg').remove()
+  //   console.log(location)
+  // }, [location])
+  // useEffect(() => {
+  //   const getPlayers = async () => {
+  //     const res = await fetch(
+  //       `${process.env.REACT_APP_DOMAIN}api/v1/teams/colors/Fuel`
+  //     );
+  //     const resData = await res.json();
+  //     console.log(resData)
+  //   };
+  //   getPlayers();
+  // }, []);
   useEffect(() => {
     const getPlayers = async () => {
       const res = await fetch(

@@ -1,8 +1,6 @@
 import * as d3 from "d3";
 
-const getBBox = () => {};
-
-const buildPieChart = (id, rawData, selection, transition = true, textColor = '#000') => {
+const buildPieChart = (id, rawData, selection, transition, themes, xml) => {
   const color = [
     "#FF6633",
     "#FFB399",
@@ -55,12 +53,12 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
     "#99E6E6",
     "#6666FF",
   ];
-  let longestLabel = ''
+  let longestLabel = "";
   let data = rawData.stats.byHero.map((hero, i) => {
     const label = hero.name;
     const foundStat = hero.stats.find((s) => s.name === selection);
-    if(label.length > longestLabel.length){
-      longestLabel = label
+    if (label.length > longestLabel.length) {
+      longestLabel = label;
     }
     let value;
     if (foundStat) {
@@ -75,9 +73,11 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
     };
   });
   data = data.filter((d) => d.value !== 0);
-  //console.log(data)
+  // data = {
+  //   label: 'test1',
 
-  
+  // }
+  //console.log(data)
 
   const container = d3.select(`#${id}`);
   let svg = container
@@ -90,34 +90,35 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
   const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
 
   const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
-  const fontSize = (w>(h*1.3))?'4vh':'1.5vw'
-  const getBBox = (svg,text) => {
-    const textSvg = svg
-        .append('text')
-        .attr('font-size', fontSize)
-        .text(text)
-    const dim = textSvg.node().getBoundingClientRect()
-    textSvg.remove()
-    return dim
-}
-  const bbox = getBBox(svg, longestLabel)
+  //const fontSize = w > h * 1.3 ? "4vh" : "1.5vw";
+  const fontSize = '2vmax'
+  const getBBox = (svg, text) => {
+    const textSvg = svg.append("text").attr("font-size", fontSize).text(text);
+    const dim = textSvg.node().getBoundingClientRect();
+    textSvg.remove();
+    return dim;
+  };
+  const bbox = getBBox(svg, longestLabel);
   //I should define global media query
   const mediaQuery = window.matchMedia("(max-width: 900px)");
-  const spacing = (w*0.025)
-  const symbolDim = bbox.height
-  const textDim = bbox.width + spacing//+ legendSymbolWidth;
-  const margin = textDim + symbolDim + spacing
+  const spacing = w * 0.025;
+  const symbolDim = bbox.height;
+  const textDim = bbox.width + spacing; //+ legendSymbolWidth;
+  const margin = textDim + symbolDim + spacing;
   //let margin = 0;
   //if(mediaQuery.matches) margin = 50
 
   //max radius that can fit in container
   //which is why values used in arc functions are fractions of it
   //to make room for labels and such to fit
-  const mh = h*0.1
-  const r = Math.min((w-margin), h) / 2 ;
+  const mh = h * 0.1;
+  const r = Math.min(w - margin, h) / 2;
 
   //g
-  const g = svg.append("g").attr("transform", `translate(${(w-margin) / 2}, ${h / 2})`);
+  const g = svg
+    .append("g")
+    .attr("transform", `translate(${(w - margin) / 2}, ${h / 2})`);
+
   //svg = svg.append("g").attr("transform", `translate(${w / 2}, ${h / 2})`);
   //const color = d3.schemeCategory10;
   const pie = d3.pie().value((d) => d.value);
@@ -125,13 +126,53 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
   const transitionTime = 1000;
 
   const mainArc = { inner: r * 0.6, outer: r * 0.95 };
+  const logoDim = (mainArc.inner * 2) / Math.sqrt(2);
+
+  d3.xml(xml,).then((svgData) => {
+    const newNode = svgData.documentElement.cloneNode(true);
+    //console.log(svgData.documentElement)
+    const node = g.node().appendChild(newNode);
+
+    const svgLogo = d3
+      .select(node)
+      .attr("id", "svgLogo")
+      //.attr('viewBox', `0 0 ${w/2} ${h/2}`)
+      .attr("y", -logoDim / 2)
+      .attr("x", -logoDim / 2)
+      .attr("height", logoDim)
+      .attr("width", logoDim)
+
+    //.style('opacity', 1)
+
+    if (transition) {
+      svgLogo.style('opacity', 0)
+      .transition().duration(transitionTime)
+        .style('opacity', 1)
+      // const path = svgLogo.selectAll("path");
+      // const pathLength = path.node().getTotalLength();
+      // path
+      //   .attr("stroke-dasharray", pathLength + " " + pathLength)
+      //   .attr("stroke-dashoffset", pathLength)
+      //   .style("fill", themes.primary)
+      //   .style("stroke", themes.secondary)
+      //   .style("stroke-width", 3)
+      //   .transition()
+      //   .duration(transitionTime)
+      //   .attr("stroke-dashoffset", 0)
+      //   .on("end", () => {
+      //     path
+      //       .transition()
+      //       .duration(500)
+      //       .style("fill", themes.secondary)
+      //       .style("stroke-width", 0);
+      //   });
+    }
+  });
+
   const arc = d3.arc().innerRadius(mainArc.inner).outerRadius(mainArc.outer);
 
   const labelArc = { inner: r * 0.9, outer: r * 0.9 };
-  const outerArc = d3
-    .arc()
-    .innerRadius(labelArc.inner)
-    .outerRadius(labelArc.outer);
+
   function tweenPie(b) {
     let i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b);
     return function (t) {
@@ -139,8 +180,7 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
     };
   }
   if (transition) {
-    g
-      .selectAll("path")
+    g.selectAll("path")
       .data(arcs)
       .enter()
       .append("path")
@@ -150,47 +190,51 @@ const buildPieChart = (id, rawData, selection, transition = true, textColor = '#
       .duration(transitionTime)
       .attrTween("d", tweenPie);
   } else {
-    g
-      .selectAll("path")
+    g.selectAll("path")
       .data(arcs)
       .enter()
       .append("path")
       .attr("fill", (d, i) => color[i])
       .attr("d", arc);
   }
-  let range =[]
-  if(h<w){
-    range = [(h/2)+(r*0.95), (h/2)-(r*0.95)]
+  let range = [];
+  if (h < w) {
+    range = [h / 2 + r * 0.95, h / 2 - r * 0.95];
+  } else {
+    range = [(w - margin) / 2 + r * 0.95, (w - margin) / 2 - r * 0.95];
   }
-  else{
-    range = [((w-margin)/2)+(r*0.95), ((w-margin)/2)-(r*0.95)]
-  }
-  const yScale = d3.scaleBand()
-    .domain(data.map(d => d.label))
-    .range([(h/2)-(r*0.90), (h/2)+(r*0.90)])
-    .padding(0.5)
-  
-  svg.selectAll('legendSymbol')
+  const yScale = d3
+    .scaleBand()
+    .domain(data.map((d) => d.label))
+    .range([h / 2 - r * 0.9, h / 2 + r * 0.9])
+    .padding(0.5);
+
+  //could make width even square but then for longer legends, there a big space
+  //between names and i think to fix that i have to recalculate the scaleBand
+  //Math.min(yScale.bandwidth(), symbolDim)
+  svg
+    .selectAll("legendSymbol")
     .data(data)
     .enter()
-    .append('rect')
-    .attr('y', d => yScale(d.label))
-    .attr('x', ((w-margin)/2) + (r*0.95) + spacing)
-    .attr('width', symbolDim)
-    .attr('height', yScale.bandwidth)
-    .attr('fill', (d,i) => color[i])
-    .attr('stroke', '#000')
-    
-    svg.selectAll('legendLabels')
-      .data(data)
-      .enter()
-      .append('text')
-      .attr('y', d => yScale(d.label)+yScale.bandwidth())
-      .attr('x', ((w-margin)/2) + (r*0.95) + symbolDim + spacing*2)
-      .attr('font-size', fontSize)
-      .attr('fill', textColor)
-      .text(d => d.label)
-  console.log(textColor)
+    .append("rect")
+    .attr("y", (d) => yScale(d.label))
+    .attr("x", (w - margin) / 2 + r * 0.95 + spacing)
+    .attr("width", symbolDim)
+    .attr("height", Math.min(yScale.bandwidth(), symbolDim))
+    .attr("fill", (d, i) => color[i])
+    .attr("stroke", "#000");
+
+  svg
+    .selectAll("legendLabels")
+    .data(data)
+    .enter()
+    .append("text")
+    .attr("y", (d) => yScale(d.label) + Math.min(yScale.bandwidth(),symbolDim))
+    .attr("x", (w - margin) / 2 + r * 0.95 + symbolDim + spacing * 2)
+    .attr("font-size", fontSize)
+    .attr("fill", themes.tertiary)
+    .text((d) => d.label);
+  //console.log(textColor)
   //.attr("d", arc);
   //https://www.d3-graph-gallery.com/graph/donut_label.html
   //borrowed this cus labels look so nice here.

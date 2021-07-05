@@ -1,7 +1,7 @@
 import * as d3 from "d3";
-const buildLineChart = (id, rawData, selection, transition) => {
+const buildLineChart = (id, rawData, selection, transition, themes) => {
   //const selection = 'All Damage Done'
-  const mediaQuery = window.matchMedia("(max-width: 700px)");
+  const mediaQuery = window.matchMedia("(max-width: 850px)");
   const data = rawData.map((m) => {
     //const date = m.startTime.split(' ')[0]
     const ymd = m.startTime.split(" ")[0].split("-");
@@ -10,7 +10,7 @@ const buildLineChart = (id, rawData, selection, transition) => {
 
     if (mediaQuery.matches) {
       //make date in shorter format for mobile
-      date = `${parseInt(ymd[1])}/${parseInt(ymd[2])}/${ymd[0].slice(0, 2)}`;
+      date = `${parseInt(ymd[1])}/${parseInt(ymd[2])}/${ymd[0].slice(2, 4)}`;
     }
     const statValue = m.stats.all.find((s) => s.name === selection).value;
     return { date, statValue: parseInt(statValue, 10) };
@@ -39,7 +39,7 @@ const buildLineChart = (id, rawData, selection, transition) => {
   const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
 
   const maxValue = d3.max(data, (d) => d.statValue);
-  const fontSize = '1vw'
+  const fontSize = '1.5vmin'
   
   const getBBox = (svg,text) => {
     const textSvg = svg
@@ -60,7 +60,7 @@ const tickDim = getBBox(svg, data[0].date)
   //console.log(tickDim)
   const margin = {
     left: w*0.05,
-    right: w*0.025,
+    right: (w*0.01)+tickDim.width/2,
     top: tickDim.height,
     bottom: tickDim.height*2
   }
@@ -92,6 +92,13 @@ const tickDim = getBBox(svg, data[0].date)
     .attr("id", "xAxis")
     .attr("transform", `translate(${0}, ${h - margin.bottom})`)
     .call(d3.axisBottom(xScale));
+  
+    xAxis.selectAll('path')
+    .attr('stroke', themes.tertiary)
+    xAxis.selectAll('line')
+    .attr('stroke', themes.tertiary)
+    xAxis.selectAll('text')
+    .attr('color', themes.tertiary)
 
   let yAxis = svg
     .append("g")
@@ -99,13 +106,20 @@ const tickDim = getBBox(svg, data[0].date)
     .attr("transform", `translate(${margin.left}, ${0})`)
     .call(d3.axisLeft(yScale));
 
+    yAxis.selectAll('path')
+    .attr('stroke', themes.tertiary)
+    yAxis.selectAll('line')
+    .attr('stroke', themes.tertiary)
+    yAxis.selectAll('text')
+    .attr('color', themes.tertiary)
+
   //make line color, team color in the future
   let path = svg
     .append("path")
     .attr("id", "path")
     .datum(data)
     .attr("fill", "none")
-    .attr("stroke", "#FF1A66")
+    .attr("stroke", themes.secondary)
     .attr("stroke-width", "1")
     .attr("d", line);
   const totalLength = path.node().getTotalLength();

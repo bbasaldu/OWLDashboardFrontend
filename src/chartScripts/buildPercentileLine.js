@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
 
-const buildPercentileLine = (id, percentile, transition = true, lastPercentile=0) => {
+const buildPercentileLine = (id, percentile, themes, transition = true, lastPercentile=0) => {
   const container = d3.select(`#${id}`);
 
   const svg = container
@@ -39,7 +39,17 @@ const buildPercentileLine = (id, percentile, transition = true, lastPercentile=0
     .attr("cx", xScale(percentile * 100))
     .attr("cy", margin.top)
     .attr("r", r)
-    .attr("fill", "#8bc");
+    .attr("fill", themes.secondary);
+
+    if(transition){
+      point.attr('cx', 0)
+      .transition().duration(1000)
+      .attr('cx', xScale(percentile * 100))
+
+      xAxis.attr('opacity', 0)
+      .transition().duration(1000)
+      .attr('opacity', 1)
+    }
       const fontSize = (w>h)?'2vh':'2vw'
   svg.selectAll('text')
     .attr('font-size', fontSize)
