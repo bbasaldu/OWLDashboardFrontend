@@ -1,0 +1,46 @@
+.card{
+    width: 60%;
+    height: 60%;
+    margin: auto;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    background-color: none;
+}
+
+.card div{
+    position: relative;
+    width: 5vmax;
+    height: 5vmax;
+    top: -5%;
+    background-color: rgba(230, 230, 230, 0.8);
+    
+    margin: auto;
+    margin-right: 1%;
+    margin-left: 1%;
+    border-radius: 50%;
+    animation: 2s ease-in-out infinite;
+    animation-name: loading;
+    
+}
+.card div:nth-child(1){animation-delay: 0s;}
+.card div:nth-child(2){animation-delay: 0.5s;}
+.card div:nth-child(3){animation-delay: 1s;}
+
+@keyframes loading {
+    from{
+        top: -5%;
+        background-color: rgba(230, 230, 230, 0.8);
+    }
+    50%{
+        top: 5%;
+        background-color: rgba(115, 115, 115, 0.4);
+    }
+    to{
+        top: -5%;
+        background-color: rgba(230, 230, 230, 0.8);
+    }
+}
+

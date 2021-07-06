@@ -14,29 +14,19 @@
 }
 
 .image {
-    /* height: 100px;
-    width: 100px; */
+   
     position: absolute;
     z-index: 2;
    
     
 }
-/* @media only screen and (max-width: 600px) {
-    .PieChart {
-        margin-bottom: 0.5%;
-    }
-} */
+
 
 .fill{
     width: 100%;
-    /* max-height: 90%; */
-    /* height: auto; */
-    
+  
     height: 95%;
-    /* max-height: 90%;
-    min-height: 50%; */
-
-    
+ 
     
 }
 .fill2{
@@ -48,58 +38,23 @@
     setting the height prop here makes the svg container div think the height is always 4%,
     which means when the select tag wraps the svg container overlaps it thinking the filter container is higher above
      */
-    width: 100%;
+    width: auto;
     /* height auto is default -> usually means height is set from its children so here it scales to fit stat and select which makes sense */
-    /* height: 4%; */
-    /* min-height: 4%;
-    max-height: 100%; */
+   
     padding-top: 1%;
     padding-left: 1%;
     margin: 0rem;
-    /* if h > w use 1.5vw else 2vh */
     font-size: 2vmin;
     color: #000;
     height: auto;
-    /* overflow-x:scroll */
-    /* white-space: nowrap;   */
+    
 }
 .filter select,option{
     font-size: inherit;
     height: auto;
 }
-/* .filter select, option{
-    white-space: nowrap;
-    
-} */
-/* .filter :first-child{
-    width: 50%;
-    margin: 0rem;
-} */
 
-.test{
-    /* font-size: 5vh; */
-    height: 5%;
-    margin-bottom: 1%;
-    width: 50%;
-}
-.test2{
-    display: inline;
-    height: 10%;
-}
-/* .test2 option{
-    margin: 0%;
-    padding: 0%;
-    min-height: 1%;
-} */
 
-/* .filter select{
-    margin: 0%;
-    padding: 0%;
-}
 
-.filter option{
-    margin: 0%;
-    padding: 0%;
-} */
 
 

@@ -6,10 +6,7 @@ import React from 'react'
 import { useSelector } from "react-redux";
 const Container = (props) => {
   const theme = useSelector(state => state.ui.theme)
-  // const containerRef = useRef(null)
-  //  useEffect(() => {
-  //   containerRef.current.scrollIntoView({behavior: 'smooth'})
-  //  })
+
 
   //pie chart dropdown menu
   //All matches(or select match) -> All maps(or select map) -> Stat
@@ -28,7 +25,6 @@ const Container = (props) => {
       </div>
 
       <div className={classes.SubContainer}>
-        {/* <div id="lineChart"></div> */}
         <LineChart id="lineChart" />
       </div>
     </div>

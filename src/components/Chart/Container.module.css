@@ -1,45 +1,4 @@
-/* .Container {
 
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-
-} */
-
-/* 
-.SubContainer {
-  padding: 0rem;
-
-  margin: 0rem;
-  margin-top: 0.5%;
-  width: 100%;
-  
-  height: 49%;
-
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-
-} */
-/* .rowContainer {
-
-  
-
-  padding: 0rem;
-  width: 100%;
-  height: 50%;
-
-  background-color: none;
-  min-width: 50vw;
-  min-height: 50vh;
-  display: flex;
-  flex-direction: row;
-} */
-.rowItem:first-child {
-  margin-right: 0.5%;
-}
 @media not screen and (max-width: 600px) {
   .Container {
 
@@ -70,11 +29,10 @@
   
 
     padding: 0rem;
-    /* width: 100%;
-    height: 50%; */
+   
+    width: 100vw;
     height: 50vh;
     background-color: none;
-    min-width: 50vw;
     min-height: 300px;
     display: flex;
     flex-direction: row;
@@ -114,6 +72,7 @@
   background-color: #fff;
   display: flex;
   flex-direction: column;
+  
 
 }
 .rowItem:nth-child(2){
@@ -132,21 +91,5 @@
   background-color: #fff;
   opacity: 1;
 
-  /* border-style: solid; */
 }
 
-/* .rowItem:first-child{
-    margin-right: 0.5%;
-} */
-
-/* .rowContainer div:first-child{
-    margin-right: 0.5%;
-} */
-
-/*  
-  margin-right: 0.5%;
-} */
-
-/* .rowContainer div:first-child {
-  margin-right:0.5%;
-} */

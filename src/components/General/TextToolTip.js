@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment} from "react";
 import classes from "./TextToolTip.module.css";
 import ReactTooltip from "react-tooltip";
 const TextToolTip = (props) => {

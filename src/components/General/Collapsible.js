@@ -1,6 +1,5 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState } from "react";
 import classes from "./Collapsible.module.css";
-import * as d3 from "d3";
 
 const Collapsible = (props) => {
   const [isShowing, setIsShowing] = useState(false);

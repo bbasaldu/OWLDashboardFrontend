@@ -1,18 +1,12 @@
 import TextToolTip from "./TextToolTip";
-// import Collapse from 'react-bootstrap/Collapse'
-import React, { useState } from "react";
+import React from "react";
 import classes from "./AboutConent.module.css";
-// import Example from "./Example";
-// import { Collapse } from "react-bootstrap";
+
 import Collapse from "./Collapsible";
 
 
 const AboutContent = () => {
-  const [show, setShow] = useState(false);
-  const showToolTip = (ev) => {
-    setShow((last) => !last);
-    //console.log(ev.target.getBoundingClientRect());
-  };
+  
   const ow = {
     name: "Overwatch",
     desc: `

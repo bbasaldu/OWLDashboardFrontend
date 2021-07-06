@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import * as d3 from "d3";
 import classes from "./LineChart.module.css";
 import { useDispatch, useSelector } from "react-redux";
-//import { chartActions } from "../../store/chartSlice";
 import { playerActions } from "../../store/playerSlice.js";
-//import { Delaunay } from "d3-delaunay";
 import buildLineChart from "../../chartScripts/buildLineChart.js";
 import changeLineChart from "../../chartScripts/changeLineChart.js";
+import LoadingCard from "../General/LoadingCard";
 import React from 'react'
 const LineChart = (props) => {
   const dispatch = useDispatch();
   const player = useSelector((state) => state.player.currentPlayer);
   const theme = useSelector(state => state.ui.theme)
   const [filteredOptions, setFilteredOptions] = useState([]);
-  const [isloading, setIsLoading] = useState(true);
   const loading = useSelector(state => state.ui.loading)
   function changeLineData(ev) {
     const s = ev.target.options;
@@ -73,8 +71,7 @@ const LineChart = (props) => {
         }
       });
       buildLineChart(props.id, player.matches, filteredOptionsVar[0], true, theme);
-      setIsLoading(false);
-      //console.log(filteredOptionsVar);
+      
       setFilteredOptions(filteredOptionsVar);
       //might change data, since player state already contains player data
       dispatch(
@@ -85,25 +82,22 @@ const LineChart = (props) => {
           type: "line",
         })
       );
-      //console.log(filteredOptions)
-      //console.log(maxStatsIndex);
+
     }
 
-    // dispatch(
-    //   chartActions.addChartVars({ data, id: props.id, margin, type: "line" })
-    // );
+
   }, [props.id, dispatch, player, loading, theme]);
 
   return (
     <div className={classes.RectChart} style={{backgroundColor: theme.primary}}>
-      {loading && <div>Loading...</div>}
+      {loading && <LoadingCard/>}
       {!loading && (
         <div className={classes.filter} style={{color:theme.tertiary}}>
           <span>General Stats - By Match </span>
           {options()}
         </div>
       )}
-      <div className={classes.fill} id={props.id}></div>
+      {!loading && <div className={classes.fill} id={props.id}></div>}
     </div>
   );
 };

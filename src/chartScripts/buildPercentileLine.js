@@ -3,16 +3,16 @@ import * as d3 from "d3";
 
 const buildPercentileLine = (id, percentile, themes, transition = true, lastPercentile=0) => {
   const container = d3.select(`#${id}`);
+  const w = parseFloat(container.style("width"));
 
+  const h = parseFloat(container.style("height"));
   const svg = container
     .append("svg")
     .attr("id", `${id}Svg`)
-    .attr("width", "100%")
-    .attr("height", "100%");
+    .attr("width", w)
+    .attr("height", h);
 
-  const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
-
-  const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
+  
 
   const r = w * 0.015; //Math.min(w, h) * 0.5
 
@@ -56,13 +56,11 @@ const buildPercentileLine = (id, percentile, themes, transition = true, lastPerc
 };
 
 export const changePercentile = (id, newPercentile) => {
-  //const container = d3.select(`#${id}`);
   const time = 1000;
   const w = parseFloat(d3.select(`#${id}Svg`).style("width"));
 
-  //const h = parseFloat(d3.select(`#${id}Svg`).style("height"));
 
-  const r = w * 0.015; //Math.min(w, h) * 0.5
+  const r = w * 0.015; 
 
   const margin = { left: w*0.05, right: w*0.05, top: r, bottom:  100};
   const xScale = d3

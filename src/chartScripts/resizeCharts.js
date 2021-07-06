@@ -1,6 +1,5 @@
 
 import * as d3 from 'd3'
-import { useSelector } from 'react-redux';
 import buildLineChart from "./buildLineChart.js"
 import buildPercentileLine from './buildPercentileLine.js';
 import buildPieChart from './buildPieChart.js';
@@ -15,7 +14,6 @@ const resizeCharts = (charts, themes) => {
     
     
     for(const chart of charts){
-        //console.log(chart)
         const container = d3.select(`#${chart.id}`);
         container.selectAll('svg').remove()
         if(chart.type === 'line'){

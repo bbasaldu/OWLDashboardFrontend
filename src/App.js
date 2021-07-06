@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import "./App.css";
 import { useEffect } from "react";
 import Layout from "./components/Layout";
-import AllPlayers from "./pages/AllPlayers";
 import { playerActions } from "./store/playerSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import Player from "./pages/Player";
 import resizeCharts from "./chartScripts/resizeCharts.js";
 import About from "./pages/About";
+import NotFound from "./pages/NotFound";
+import AllPlayersList from "./pages/AllPlayersList";
 import {
-  useHistory,
   useLocation,
 } from "react-router-dom/cjs/react-router-dom.min";
-import * as d3 from "d3";
 function App() {
   const dispatch = useDispatch();
   const charts = useSelector((state) => state.player.playerChartData);
@@ -24,25 +23,12 @@ function App() {
     
     window.onresize = () => {
       
-      if (location.pathname.includes('/players/')) {
+      if (location.pathname.includes('/player/')) {
         resizeCharts(charts, theme);
       }
     };
   }, [charts, location, theme]);
-  // useEffect(() => {
-  //   d3.selectAll('svg').remove()
-  //   console.log(location)
-  // }, [location])
-  // useEffect(() => {
-  //   const getPlayers = async () => {
-  //     const res = await fetch(
-  //       `${process.env.REACT_APP_DOMAIN}api/v1/teams/colors/Fuel`
-  //     );
-  //     const resData = await res.json();
-  //     console.log(resData)
-  //   };
-  //   getPlayers();
-  // }, []);
+
   useEffect(() => {
     const getPlayers = async () => {
       const res = await fetch(
@@ -50,7 +36,6 @@ function App() {
       );
       const resData = await res.json();
       dispatch(playerActions.setPlayers(resData.players));
-      //console.log(resData)
     };
     getPlayers();
   }, [dispatch]);
@@ -59,18 +44,25 @@ function App() {
     <Layout>
       <Switch>
         <Route path="/" exact>
-          <Redirect to="players" />
+          <Redirect to="players/1" />
         </Route>
-        <Route path="/players" exact>
-          <AllPlayers />
+       
+        
+        <Route path="/players/:page" >
+          <AllPlayersList />
         </Route>
-        <Route path="/players/:name">
+        <Route path="/players" >
+          <Redirect to="players/1" />
+        </Route>
+        <Route path="/player/:name">
           <Player />
         </Route>
         <Route path="/about">
           <About />
         </Route>
-        <Route path="*"></Route>
+        <Route path="*">
+          <NotFound/>
+        </Route>
       </Switch>
     </Layout>
   );

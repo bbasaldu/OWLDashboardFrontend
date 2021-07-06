@@ -1,0 +1,27 @@
+.container{
+    width: 100vw;
+    height: 5vh;
+    background-color: #fff;
+    padding-bottom: 1%;
+}
+.fit{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    
+    
+}
+.search{
+    border-radius: 10px;
+    height: 2.5vh;
+    width: 50vw;
+    border-style: solid;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    
+    
+    
+}
+.search:focus{
+    outline: none;
+}
